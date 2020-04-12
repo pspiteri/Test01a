@@ -10,7 +10,8 @@
       periods: Array,
       values: Array,
       selectedRowIndex: Number,
-      selectedCellIndex: Number
+      selectedCellIndex: Number,
+      isEditing: Boolean
     }
   };
 </script>
@@ -24,7 +25,7 @@
     <th class="row-header" scope="account">{{ account }}</th>
     <template v-for="period in periods">
       <Cell :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex" :account="account"
-        :period="period['name']" :invertSign=false :values="values" v-on="$listeners" />
+        :period="period['name']" :invertSign=false :values="values" :isEditing="isEditing" v-on="$listeners" />
     </template>
   </tr>
 </template>

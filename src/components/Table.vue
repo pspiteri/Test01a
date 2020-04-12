@@ -8,14 +8,16 @@
         props: {
             accounts: Array,
             periods: Array,
-            values: Array
+            values: Array,
+            isEditing: Boolean,
+            keyedValue: Number,
+            selectedCellValue: Number
         },
         data() {
             return {
                 selectedRowIndex: 1,
-                selectedCellIndex: 1,
-                editing: false,
-                keyedValue: ""
+                selectedCellIndex: 1
+                // editing: false,
             }
         },
         computed: {
@@ -31,50 +33,73 @@
                 this.selectedCellIndex = target.cellIndex;
                 this.selectedRowIndex = target.parentElement.rowIndex;
             },
+            resetNavigationProperties() {
+                // this.$emit('tableEditing', false);
+                // this.$emit('tableKeyedValue', "");
+                this.setEditingToFalse();
+                this.resetKeyedValue();
+            },
+            resetKeyedValue() {
+                this.$emit('tableKeyedValue', "");
+            },
+            setEditingToFalse() {
+                this.$emit('tableEditing', false);
+            },
+            setEditingToTrue() {
+                this.$emit('tableEditing', true);
+            },
+            setKeyedValueToSelectedValue(key) {
+                this.$emit('tableKeyedValue', this.selectedCellValue);
+            },
+            addKeyToKeyedValueIfEditing(key) {
+                this.$emit('tableKeyedValue', this.keyedValue + key);
+            },
             navigation(key) {
                 switch (key) {
                     case "Alt":
                         break;
                     case "Escape":
-                        this.editing = false;
-                        this.keyedValue = "";
+                        this.resetNavigationProperties();
                         break;
                     case "ArrowLeft":
                         if (this.selectedCellIndex > 1) {
                             this.selectedCellIndex--;
                         }
-                        this.editing = false;
-                        this.keyedValue = "";
+                        this.setKeyedValueToSelectedValue();
+                        this.setEditingToFalse();
+                        // this.resetNavigationProperties();
                         break;
                     case "ArrowRight":
                         if (this.selectedCellIndex < this.columnCount) {
                             this.selectedCellIndex++;
                         }
-                        this.editing = false;
-                        this.keyedValue = "";
+
+                        this.setKeyedValueToSelectedValue();
+                        this.setEditingToFalse();
+                        // this.resetNavigationProperties();
                         break;
                     case "ArrowUp":
                         if (this.selectedRowIndex > 1) {
                             this.selectedRowIndex--;
                         }
-                        this.editing = false;
-                        this.keyedValue = "";
+
+                        this.setKeyedValueToSelectedValue();
+                        this.setEditingToFalse();
+                        // this.resetNavigationProperties();
                         break;
                     case "ArrowDown":
                         if (this.selectedRowIndex < this.rowCount) {
                             this.selectedRowIndex++;
                         }
-                        this.editing = false;
-                        this.keyedValue = "";
+
+                        this.setKeyedValueToSelectedValue();
+                        this.setEditingToFalse();
+                        // this.resetNavigationProperties();
                         break;
                     default:
-                        if (!this.editing) { this.editing = true }
-
-                        if (this.editing) {
-                            this.keyedValue = this.keyedValue + key;
-                        } else {
-                            return key;
-                        }
+                        if (!this.isEditing) { this.resetKeyedValue(); }
+                        this.setEditingToTrue();
+                        this.addKeyToKeyedValueIfEditing(key);
 
                         console.log(this.keyedValue);
                         break;
@@ -84,8 +109,6 @@
         mounted() {
             const self = this;
             window.addEventListener("keydown", function (e) {
-                // use self instead of this in here
-                // console.log(e.key);
                 self.navigation(e.key);
             });
         }
@@ -114,7 +137,7 @@
                 <template v-for="account in accounts">
                     <Row v-on:onCellClickParent="onCellClickParent" :account="account['name']" :periods="periods"
                         :values="values" :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex"
-                        v-on="$listeners" />
+                        :isEditing="isEditing" v-on="$listeners" />
                 </template>
             </tbody>
         </table>

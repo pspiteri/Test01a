@@ -13,7 +13,9 @@
                 <button class="btn btn-outline-secondary" type="button">fx()</button>
             </div>
         </div>
-        <Table v-on:cellSelectedValue="cellSelectedValue" :accounts="accounts" :periods="periods" :values="values" />
+        <Table v-on:tableKeyedValue="tableKeyedValue" v-on:tableEditing="tableEditing"
+            v-on:cellSelectedValue="cellSelectedValue" :accounts="accounts" :periods="periods" :values="values"
+            :isEditing="isEditing" :keyedValue="keyedValue" :selectedCellValue="selectedCellValue" />
     </div>
 </template>
 <script>
@@ -23,6 +25,8 @@
         name: "app",
         data() {
             return {
+                keyedValue: null,
+                isEditing: false,
                 selectedCellValue: null,
                 accounts: [
                     {
@@ -141,13 +145,14 @@
             }
         },
         methods: {
+            tableKeyedValue(keyedValue) {
+                this.keyedValue = keyedValue;
+            },
+            tableEditing(isEditing) {
+                this.isEditing = isEditing;
+            },
             cellSelectedValue(activeCellValue) {
-                // console.log("cellSelectedValue");
-                // console.log(activeCellValue);
                 this.selectedCellValue = activeCellValue;
-                // console.log('this.selectedCellValue');
-                // console.log(this.selectedCellValue);
-
             }
         },
         components: {
