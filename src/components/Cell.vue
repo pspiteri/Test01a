@@ -46,13 +46,7 @@
             }
         },
         mounted: function () {
-            // `this` points to the vm instance
-            // console.log(this);
-            // console.log(this.$el.attributes[0].ownerElement.cellIndex);
-            // console.log(this.$el.attributes[0].ownerElement.cellIndex);
-            // console.log(this.$el.parentElement.attributes[0].ownerElement.rowIndex);
             this.componentLoaded = true;
-            // this.setIsActive();
         },
         methods: {
             setIsActive() {
@@ -103,10 +97,8 @@
                 this.$emit('childToParent', 99)
             },
             onCellClick(event) {
-                // console.log('onCellClick');
-                console.log(event.target.cellIndex);
-                console.log(event.target.parentElement.rowIndex);
-                // event.target.classList.add('crap');
+                // console.log(event.target.cellIndex);
+                // console.log(event.target.parentElement.rowIndex);
                 this.$emit('onCellClickParent', event.target);
             }
         }

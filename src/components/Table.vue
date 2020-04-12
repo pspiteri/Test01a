@@ -18,16 +18,60 @@
                 selectedCellIndex: 1
             }
         },
-        methods: {
-            updateAllCells() {
-
+        computed: {
+            columnCount: function () {
+                return this.periods.length;
             },
+            rowCount: function () {
+                return this.accounts.length;
+            }
+        },
+        methods: {
             onCellClickParent(target) {
-                console.log('onCellClickPARENT');
-                console.log(target);
+                // console.log('onCellClickPARENT');
+                // console.log(target);
                 this.selectedCellIndex = target.cellIndex;
                 this.selectedRowIndex = target.parentElement.rowIndex;
+            },
+            navigation(key) {
+                console.log('navigation');
+
+                switch (key) {
+                    case "ArrowLeft":
+                        if (this.selectedCellIndex > 1) {
+                            this.selectedCellIndex--;
+                        }
+
+                        break;
+                    case "ArrowRight":
+                        if (this.selectedCellIndex < this.columnCount) {
+                            this.selectedCellIndex++;
+                        }
+
+                        break;
+                    case "ArrowUp":
+                        if (this.selectedRowIndex > 1) {
+                            this.selectedRowIndex--;
+                        }
+                        break;
+                    case "ArrowDown":
+                        if (this.selectedRowIndex < this.rowCount) {
+                            this.selectedRowIndex++;
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
             }
+        },
+        mounted() {
+            const self = this;
+            window.addEventListener("keydown", function (e) {
+                // use self instead of this in here
+                console.log(e.key);
+                self.navigation(e.key);
+            });
         }
     };
 </script>
