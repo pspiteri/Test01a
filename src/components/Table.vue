@@ -13,8 +13,7 @@
         data() {
             return {
                 selectedRowIndex: 1,
-                selectedCellIndex: 1,
-                selectedCellValue: null
+                selectedCellIndex: 1
             }
         },
         computed: {
@@ -29,14 +28,6 @@
             }
         },
         methods: {
-            cellSelectedValue(activeCellValue) {
-                // console.log("cellSelectedValue");
-                // console.log(activeCellValue);
-                this.selectedCellValue = activeCellValue;
-                // console.log('this.selectedCellValue');
-                // console.log(this.selectedCellValue);
-
-            },
             onCellClickParent(target) {
                 // console.log('onCellClickPARENT');
                 // console.log(target);
@@ -125,7 +116,7 @@
                 <template v-for="account in accounts">
                     <Row v-on:cellSelectedValue="cellSelectedValue" v-on:onCellClickParent="onCellClickParent"
                         :account="account['name']" :periods="periods" :values="values"
-                        :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex" />
+                        :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex" v-on="$listeners" />
                 </template>
             </tbody>
         </table>

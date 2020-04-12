@@ -4,7 +4,7 @@
     <div id="app">
         <h1>My Vue App</h1>
         <!-- PersonGreeter personName="Travis" / -->
-        <Table :accounts="accounts" :periods="periods" :values="values" />
+        <Table v-on:cellSelectedValue="cellSelectedValue" :accounts="accounts" :periods="periods" :values="values" />
     </div>
 </template>
 <script>
@@ -14,7 +14,7 @@
         name: "app",
         data() {
             return {
-                // selectedValue: "",
+                selectedCellValue: null,
                 accounts: [
                     {
                         "name": "4000",
@@ -87,7 +87,14 @@
             }
         },
         methods: {
+            cellSelectedValue(activeCellValue) {
+                // console.log("cellSelectedValue");
+                // console.log(activeCellValue);
+                this.selectedCellValue = activeCellValue;
+                // console.log('this.selectedCellValue');
+                // console.log(this.selectedCellValue);
 
+            }
         },
         components: {
             // PersonGreeter,
