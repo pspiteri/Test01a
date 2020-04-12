@@ -1,12 +1,14 @@
 <script>
     // https://dev-notes.eu/2018/05/passing-data-between-vue-components/
+    // https://laracasts.com/discuss/channels/vue/computed-function-is-running-before-data-is-loaded?page=0
+
     var numeral = require("numeral");
     import Row from "./Row.vue";
     export default {
         name: "cell",
         data() {
             return {
-                isActive: ""
+                componentLoaded: false,
             }
         },
         props: {
@@ -18,10 +20,29 @@
         },
         computed: {
             rowIndex: function () {
+                if (!this.componentLoaded)
+                    return null;
+
                 return this.$el.parentElement.attributes[0].ownerElement.rowIndex;
             },
             cellIndex: function () {
+                if (!this.componentLoaded)
+                    return null;
+
                 return this.$el.attributes[0].ownerElement.cellIndex;
+            },
+            isActive: function () {
+                if (!this.componentLoaded)
+                    return null;
+
+                var rowIndex = this.$el.parentElement.attributes[0].ownerElement.rowIndex;
+                var cellIndex = this.$el.attributes[0].ownerElement.cellIndex;
+
+                if (this.rowIndex == this.selectedRowIndex && this.cellIndex == this.selectedCellIndex) {
+                    return "active";
+                } else {
+                    return "";
+                }
             }
         },
         mounted: function () {
@@ -30,7 +51,8 @@
             // console.log(this.$el.attributes[0].ownerElement.cellIndex);
             // console.log(this.$el.attributes[0].ownerElement.cellIndex);
             // console.log(this.$el.parentElement.attributes[0].ownerElement.rowIndex);
-
+            this.componentLoaded = true;
+            // this.setIsActive();
         },
         methods: {
             setIsActive() {
@@ -96,9 +118,9 @@
     }
 
     .active {
-        background-color: lightgoldenrodyellow;
+        background-color: #BDEDFF;
     }
 </style>
 <template>
-    <td class="cell" v-on:click="onCellClick" v-text="getValue(account, period, false)"></td>
+    <td class="cell" v-bind:class="[isActive]" v-on:click="onCellClick" v-text="getValue(account, period, false)"></td>
 </template>
