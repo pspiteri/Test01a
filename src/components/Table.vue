@@ -1,10 +1,8 @@
 <script>
-    // import Cell from "./Cell.vue";
     import Row from "./Row.vue";
     export default {
         name: "entry-table",
         components: {
-            // Cell
             Row
         },
         props: {
@@ -15,7 +13,8 @@
         data() {
             return {
                 selectedRowIndex: 1,
-                selectedCellIndex: 1
+                selectedCellIndex: 1,
+                selectedCellValue: null
             }
         },
         computed: {
@@ -24,19 +23,45 @@
             },
             rowCount: function () {
                 return this.accounts.length;
+            },
+            selectedValue: function () {
+                return this.getRawValue(this.selectedRowIndex)
             }
         },
         methods: {
+            cellSelectedValue(activeCellValue) {
+                // console.log("cellSelectedValue");
+                // console.log(activeCellValue);
+                this.selectedCellValue = activeCellValue;
+                // console.log('this.selectedCellValue');
+                // console.log(this.selectedCellValue);
+
+            },
             onCellClickParent(target) {
                 // console.log('onCellClickPARENT');
                 // console.log(target);
                 this.selectedCellIndex = target.cellIndex;
                 this.selectedRowIndex = target.parentElement.rowIndex;
             },
-            navigation(key) {
-                console.log('navigation');
+            // storeSelectedValue() {
+            //     this.$emit('storeSelectedValue', event.target);
+            // },
+            // getRawValue(account, period) {
+            //     // TODO: duplicate in Cell
+            //     var sumOfValues = 0;
 
+            //     for (const value of this.values) {
+            //         if (value["account"] == account && value["period"] == period) {
+            //             sumOfValues = sumOfValues + this.textToValue(value["value"]);
+            //         }
+            //     }
+
+            //     return sumOfValues;
+            // },
+            navigation(key) {
                 switch (key) {
+                    case "Alt":
+                        break;
                     case "ArrowLeft":
                         if (this.selectedCellIndex > 1) {
                             this.selectedCellIndex--;
@@ -61,6 +86,8 @@
 
                         break;
                     default:
+                        console.log(key);
+
                         break;
                 }
             }
@@ -69,7 +96,7 @@
             const self = this;
             window.addEventListener("keydown", function (e) {
                 // use self instead of this in here
-                console.log(e.key);
+                // console.log(e.key);
                 self.navigation(e.key);
             });
         }
@@ -96,8 +123,9 @@
             </thead>
             <tbody>
                 <template v-for="account in accounts">
-                    <Row v-on:onCellClickParent="onCellClickParent" :account="account['name']" :periods="periods"
-                        :values="values" :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex" />
+                    <Row v-on:cellSelectedValue="cellSelectedValue" v-on:onCellClickParent="onCellClickParent"
+                        :account="account['name']" :periods="periods" :values="values"
+                        :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex" />
                 </template>
             </tbody>
         </table>

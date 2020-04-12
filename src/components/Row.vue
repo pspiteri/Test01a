@@ -20,7 +20,7 @@
     <th class="row-header" scope="account">{{ account }}</th>
     <template v-for="period in periods">
       <Cell :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex" :account="account"
-        :period="period['name']" :values="values" v-on="$listeners" />
+        :period="period['name']" :invertSign=false :values="values" v-on="$listeners" />
     </template>
   </tr>
 </template>

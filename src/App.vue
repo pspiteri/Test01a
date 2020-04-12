@@ -14,15 +14,19 @@
         name: "app",
         data() {
             return {
+                // selectedValue: "",
                 accounts: [
                     {
-                        "name": "4000"
+                        "name": "4000",
+                        "invert": false
                     },
                     {
-                        "name": "5000"
+                        "name": "5000",
+                        "invert": false
                     },
                     {
-                        "name": "6000"
+                        "name": "6000",
+                        "invert": false
                     }
                 ],
                 periods: [
@@ -82,9 +86,15 @@
                 ]
             }
         },
+        methods: {
+
+        },
         components: {
             // PersonGreeter,
             Table
+        },
+        computed: {
+
         }
     };
 </script>
