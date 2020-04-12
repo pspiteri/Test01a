@@ -14,7 +14,11 @@
     }
   };
 </script>
-
+<style scoped>
+  .row-header {
+    text-align: left;
+  }
+</style>
 <template>
   <tr>
     <th class="row-header" scope="account">{{ account }}</th>

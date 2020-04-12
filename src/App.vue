@@ -4,6 +4,15 @@
     <div id="app">
         <h1>My Vue App</h1>
         <!-- PersonGreeter personName="Travis" / -->
+        <div class="input-group">
+            <input v-model="selectedCellValue" type="text" class="form-control" aria-label="Recipient's username"
+                aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">OK</button>
+                <button class="btn btn-outline-secondary" type="button">Esc</button>
+                <button class="btn btn-outline-secondary" type="button">fx()</button>
+            </div>
+        </div>
         <Table v-on:cellSelectedValue="cellSelectedValue" :accounts="accounts" :periods="periods" :values="values" />
     </div>
 </template>
@@ -116,5 +125,9 @@
 
     h1 {
         margin-bottom: 40px;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
     }
 </style>
