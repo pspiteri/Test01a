@@ -13,7 +13,9 @@
         data() {
             return {
                 selectedRowIndex: 1,
-                selectedCellIndex: 1
+                selectedCellIndex: 1,
+                editing: false,
+                keyedValue: ""
             }
         },
         computed: {
@@ -23,62 +25,58 @@
             rowCount: function () {
                 return this.accounts.length;
             },
-            selectedValue: function () {
-                return this.getRawValue(this.selectedRowIndex)
-            }
         },
         methods: {
             onCellClickParent(target) {
-                // console.log('onCellClickPARENT');
-                // console.log(target);
                 this.selectedCellIndex = target.cellIndex;
                 this.selectedRowIndex = target.parentElement.rowIndex;
             },
-            // storeSelectedValue() {
-            //     this.$emit('storeSelectedValue', event.target);
-            // },
-            // getRawValue(account, period) {
-            //     // TODO: duplicate in Cell
-            //     var sumOfValues = 0;
-
-            //     for (const value of this.values) {
-            //         if (value["account"] == account && value["period"] == period) {
-            //             sumOfValues = sumOfValues + this.textToValue(value["value"]);
-            //         }
-            //     }
-
-            //     return sumOfValues;
-            // },
             navigation(key) {
                 switch (key) {
                     case "Alt":
+                        break;
+                    case "Escape":
+                        this.editing = false;
+                        this.keyedValue = "";
                         break;
                     case "ArrowLeft":
                         if (this.selectedCellIndex > 1) {
                             this.selectedCellIndex--;
                         }
-
+                        this.editing = false;
+                        this.keyedValue = "";
                         break;
                     case "ArrowRight":
                         if (this.selectedCellIndex < this.columnCount) {
                             this.selectedCellIndex++;
                         }
-
+                        this.editing = false;
+                        this.keyedValue = "";
                         break;
                     case "ArrowUp":
                         if (this.selectedRowIndex > 1) {
                             this.selectedRowIndex--;
                         }
+                        this.editing = false;
+                        this.keyedValue = "";
                         break;
                     case "ArrowDown":
                         if (this.selectedRowIndex < this.rowCount) {
                             this.selectedRowIndex++;
                         }
-
+                        this.editing = false;
+                        this.keyedValue = "";
                         break;
                     default:
-                        console.log(key);
+                        if (!this.editing) { this.editing = true }
 
+                        if (this.editing) {
+                            this.keyedValue = this.keyedValue + key;
+                        } else {
+                            return key;
+                        }
+
+                        console.log(this.keyedValue);
                         break;
                 }
             }
@@ -114,9 +112,9 @@
             </thead>
             <tbody>
                 <template v-for="account in accounts">
-                    <Row v-on:cellSelectedValue="cellSelectedValue" v-on:onCellClickParent="onCellClickParent"
-                        :account="account['name']" :periods="periods" :values="values"
-                        :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex" v-on="$listeners" />
+                    <Row v-on:onCellClickParent="onCellClickParent" :account="account['name']" :periods="periods"
+                        :values="values" :selectedRowIndex="selectedRowIndex" :selectedCellIndex="selectedCellIndex"
+                        v-on="$listeners" />
                 </template>
             </tbody>
         </table>

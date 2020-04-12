@@ -92,6 +92,51 @@
                         "period": "3",
                         "value": "3333.33"
                     },
+                    {
+                        "account": "4000",
+                        "period": "4",
+                        "value": "4444.44"
+                    },
+                    {
+                        "account": "4000",
+                        "period": "5",
+                        "value": "5555.55"
+                    },
+                    {
+                        "account": "4000",
+                        "period": "6",
+                        "value": "6666.66"
+                    },
+                    {
+                        "account": "4000",
+                        "period": "7",
+                        "value": "7777.77"
+                    },
+                    {
+                        "account": "4000",
+                        "period": "8",
+                        "value": "8888.88"
+                    },
+                    {
+                        "account": "4000",
+                        "period": "9",
+                        "value": "9999.99"
+                    },
+                    {
+                        "account": "4000",
+                        "period": "10",
+                        "value": "1010.00"
+                    },
+                    {
+                        "account": "4000",
+                        "period": "11",
+                        "value": "1111.00"
+                    },
+                    {
+                        "account": "4000",
+                        "period": "12",
+                        "value": "1212.00"
+                    }
                 ]
             }
         },
